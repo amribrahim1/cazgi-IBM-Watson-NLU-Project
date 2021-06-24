@@ -130,3 +130,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Node modules
+sentimentAnalyzeServer/node_modules/
