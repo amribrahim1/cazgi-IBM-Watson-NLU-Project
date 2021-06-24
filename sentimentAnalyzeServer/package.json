@@ -2,6 +2,7 @@
   "name": "sentimentanalyzeserver",
   "version": "1.0.0",
   "description": "",
+  "homepage": "https://sentiment-analyzer-amr-proud-elephant-ck.eu-gb.mybluemix.net",
   "main": "sentimentAnalyzerServer.js",
   "scripts": {
     "start": "node sentimentAnalyzerServer.js",

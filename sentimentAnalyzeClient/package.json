@@ -1,6 +1,7 @@
 {
   "name": "sentimentanalyzer",
   "version": "0.1.0",
+  "homepage": "https://sentiment-analyzer-amr-proud-elephant-ck.eu-gb.mybluemix.net",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
