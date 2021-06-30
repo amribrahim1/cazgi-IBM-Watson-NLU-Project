@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -16,64 +17,55 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
 
 const app = new express();
 
-app.use(express.static('client'))
+app.use(express.static('build'));
 
 const cors_app = require('cors');
 app.use(cors_app());
 
-app.get("/",(req,res)=>{
-    res.render('index.html');
-  });
-
-app.get("/url/emotion", (req,res) => {
-
-    return res.send({"happy":"90","sad":"10"});
-});
-
-app.get("/url/sentiment", (req,res) => {
-    return res.send("url sentiment for "+req.query.url);
-});
-
-app.get("/text/emotion", (req,res) => {
+app.get("/text", (req,res) => {
     const analyzeParams = {
-        'text': 'Leonardo DiCaprio won Best Actor in a Leading Role for his performance.',
+        'text': req.query.text,
         'features': {
             'entities': {
                 'emotion': true,
                 'sentiment': true,
-                'limit': 2,
-          },
-          'keywords': {
+            },
+            'keywords': {
                 'emotion': true,
                 'sentiment': true,
-                'limit': 2,
-          },
+            },
         },
     };
     return naturalLanguageUnderstanding.analyze(analyzeParams)
     .then(analysisResults => {
-        console.log(JSON.stringify(analysisResults, null, 2));
         return res.send(JSON.stringify(analysisResults, null, 2));
     })
     .catch(err => {
-        console.log('error:', err);
+        console.log("err: ",err)
+        return res.send(err);
     });
 });
 
-app.get("/text/sentiment", (req,res) => {
+app.get("/url", (req,res) => {
     const analyzeParams = {
+        'url': req.query.url,
         'features': {
-          'relations': {}
+            'entities': {
+                'emotion': true,
+                'sentiment': true,
+            },
+            'keywords': {
+                'emotion': true,
+                'sentiment': true,
+            },
         },
-        'text': 'Leonardo DiCaprio won Best Actor in a Leading Role for his performance.'
     };
     return naturalLanguageUnderstanding.analyze(analyzeParams)
     .then(analysisResults => {
-        console.log(JSON.stringify(analysisResults, null, 2));
         return res.send(JSON.stringify(analysisResults, null, 2));
     })
     .catch(err => {
-        console.log('error:', err);
+        return res.send(err);
     });
 });
 
